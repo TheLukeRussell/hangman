@@ -15,7 +15,11 @@ class Hangman extends Component {
     images: [img0, img1, img2, img3, img4, img5, img6],
   };
 
-  state = { nWrong: 0, guessed: new Set(), answer: 'apple' };
+  constructor(props) {
+    super(props);
+    this.state = { nWrong: 0, guessed: new Set(), answer: 'apple' };
+    this.handleGuess = this.handleGuess.bind(this);
+  }
 
   /** guessedWord: show current-state of word:
     if guessed letters are {a,p,e}, show "app_e" for "apple"
@@ -39,7 +43,12 @@ class Hangman extends Component {
   /** generateButtons: return array of letter buttons to render */
   generateButtons() {
     return 'abcdefghijklmnopqrstuvwxyz'.split('').map((ltr) => (
-      <button value={ltr} onClick={this.handleGuess} disabled={this.state.guessed.has(ltr)}>
+      <button
+        key={ltr}
+        value={ltr}
+        onClick={this.handleGuess}
+        disabled={this.state.guessed.has(ltr)}
+      >
         {ltr}
       </button>
     ));
@@ -51,6 +60,7 @@ class Hangman extends Component {
       <div className='Hangman'>
         <h1>Hangman</h1>
         <img src={this.props.images[this.state.nWrong]} />
+        <p>Number Wrong: {this.state.nWrong}</p>
         <p className='Hangman-word'>{this.guessedWord()}</p>
         <p className='Hangman-btns'>{this.generateButtons()}</p>
       </div>
